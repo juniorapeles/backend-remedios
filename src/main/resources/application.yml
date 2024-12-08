@@ -1,0 +1,75 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console  # Caminho para acessar o console
+
+  application:
+    name: "AlertaMedicamentos"
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: password
+    hikari:
+      maximum-pool-size: 10
+
+
+  # Para produção, descomente a configuração do PostgreSQL
+  # datasource:
+  #   driver-class-name: org.postgresql.Driver
+  #   url: jdbc:postgresql://localhost:5432/alerta_medicamentos
+  #   username: seu_usuario
+  #   password: sua_senha
+  #   hikari:
+  #     maximum-pool-size: 10
+
+  # Configuração do JPA (Hibernate)
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+  # Configuração de envio de e-mails (Spring Mail)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: seuemail@gmail.com
+    password: sua_senha_de_app
+    protocol: smtp
+    tls: true
+    from: seuemail@gmail.com
+
+  # Definir a zona de tempo para o Brasil (caso necessário)
+  time-zone: "America/Sao_Paulo"
+
+  # Ativar o Spring Boot Actuator (para monitoramento e métricas)
+  actuator:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+
+  # Configurações específicas de alerta
+  alertas:
+    # Horário limite para o alertar de medicamentos (por exemplo, 8h00 para manhã)
+    horario_limite_manha: "08:00"
+    horario_limite_tarde: "14:00"
+    horario_limite_noite: "20:00"
+
+    # Enviar e-mail em caso de remédio não tomado
+    notificar_nao_tomado: true
+
+  # Configurações do perfil ativo (para controlar os perfis de desenvolvimento/produção)
+  profiles:
+    active: dev  # ou prod
+
+# Configuração do logging (opcional para controle de logs)
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.seuprojeto: INFO
